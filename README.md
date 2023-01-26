@@ -244,5 +244,5 @@ Monitoring Own Application
   3. Apply the configuration file - `kubectl apply -f k8s-config.yaml` 
   4. Create metrics-configuration file -
 
-### Ref - Predefined Prometheus Alert Rules - https://awesome-prometheus-alerts.grep.to/
-### Ref - Prometheus Client Library - https://prometheus.io/docs/instrumenting/clientlibs/
+- Ref - Predefined Prometheus Alert Rules - https://awesome-prometheus-alerts.grep.to/
+- Ref - Prometheus Client Library - https://prometheus.io/docs/instrumenting/clientlibs/
