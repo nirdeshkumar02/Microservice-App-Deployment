@@ -150,14 +150,12 @@
     - Search for main-rules
    ```
 9. Test Our Alert Rules
-
    ```
      Using CPUStress docker image we will run the container inside the k8 pod for testing our rule.
      - `kubectl run cpu-test --image=containerstack/cpustress -- --cpu 4 --timeout 30s --metrics-brief`
      You can check the cpu load over grafana under dashboard 'kubernetes-cluster'
      Also, Can check on prometheus alert.
    ```
-
 10. Create Alert Manger yaml file to send alert Notification at firing state of alert rules
     ```
       To Check Prometheus Alert UI -
@@ -189,7 +187,6 @@
         - ServiceMonitor is the set of targets to be monitored by prometheus.
     ```
 14. Deploy Redis Exporter
-
     ```
       Using Helm Chart to deploy
         - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -207,10 +204,45 @@
       - echo "Visit http://127.0.0.1:8080 to use your application"
       - kubectl port-forward $POD_NAME 8080:
     ```
-16. Create Alert Rules for Redis 
-   ```
-    - Ref - redis-rules.yaml
-    - After Creating rule apply the file = kubectl apply -f <alert-rule file>
-   ```
-17. 
+16. Create Alert Rules for Redis
+    ```
+      - Ref - redis-rules.yaml
+      - After Creating rule apply the file = kubectl apply -f <alert-rule file>
+    ```
+17. Now, You can check your redis rule in prometheus ui
+    ```
+      - Goto Prometheus UI
+      - Click on Alert
+      - Search for redis-rules
+    ```
+18. Import Redis Dashboard in Grafana UI
+    ```
+      Search Predefined Dashboard on grafana labs(https://grafana.com/grafana/dashboards)
+        - Predefined Dashboard should have to use the same exporter.
+        - For Redis Predefined Dashboard - https://grafana.com/grafana/dashboards/763-redis-dashboard-for-prometheus-redis-exporter-1-x/
+    ```
+Monitoring Own Application
+==============================
+  - There is no exporter available for our own application so, we have to define the metrics own.
+  - Here, we need to choose prometheus 'client libraries' that matches the lang in which your application is written.
+  - Prometheus Client Libraries abstract interface to expose your metrics.
+  - Libraries implement the prometheus metric types 
+    - Counter
+    - Gauge
+    - histogram
+    - Summary
+
+### Build Own Application With Prometheus Client Library
+  1. Ref - NodeJs Monitoring Application - `https://github.com/nirdeshkumar02/NodeJs-Monitoring-Application`
+  2. Build Docker Image for above application - `docker build -t nirdeshkumar02/my-app:node-monitor-app`
+  3. Push this application image to Private Repo - `docker push nirdeshkumar02/my-app:node-monitor-app` 
+
+### Steps to Monitor Own NodeJS Application
+  1. Create kubernetes docker login secret - 
+      `kubectl create secret docker-registry docker-login --docker-server=https://index.docker.io/v1/ --docker-username=<> --docker-password=<>`  
+  2. Create Kubernetes Configuration file - Ref Prometheus-Learning/k8s-config.yaml
+  3. Apply the configuration file - `kubectl apply -f k8s-config.yaml` 
+  4. Create metrics-configuration file -
+
 ### Ref - Predefined Prometheus Alert Rules - https://awesome-prometheus-alerts.grep.to/
+### Ref - Prometheus Client Library - https://prometheus.io/docs/instrumenting/clientlibs/
