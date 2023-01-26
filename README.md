@@ -61,10 +61,8 @@
 
 - Prometheus Federation - It allows a prometheus server to scrape data from other prometheus servers
 
-# Configure Monitoring For Microservices Application
-
-#### Project Workflow
-
+Monitoring Workflow For Kubernetes and Microservices Application
+=================================================================
 1. Create a K8s Cluster with EKS
 2. Deploy Microservices App
 3. Deploy Prometheus Monitoring Stack
