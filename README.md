@@ -160,5 +160,9 @@
     ```
       To Check Prometheus Alert UI - 
         - kubectl port-forward svc/monitoring-kube-prometheus-alertmanager 9093:9093 -n monitoring &
-      Create an alert-manager-config.yaml file
+      Create an alert-manager.yaml file
+    ```
+11. Apply alert-manager.yaml file
+    ```
+      kubectl apply -f alert-manager.yaml
     ```
