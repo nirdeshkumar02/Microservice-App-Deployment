@@ -150,12 +150,13 @@
     - Search for main-rules
    ```
 9. Test Our Alert Rules
-    ```
-      Using CPUStress docker image we will run the container inside the k8 pod for testing our rule.
-      - `kubectl run cpu-test --image=containerstack/cpustress -- --cpu 4 --timeout 30s --metrics-brief`
-      You can check the cpu load over grafana under dashboard 'kubernetes-cluster'
-      Also, Can check on prometheus alert.
-    ```
+
+   ```
+     Using CPUStress docker image we will run the container inside the k8 pod for testing our rule.
+     - `kubectl run cpu-test --image=containerstack/cpustress -- --cpu 4 --timeout 30s --metrics-brief`
+     You can check the cpu load over grafana under dashboard 'kubernetes-cluster'
+     Also, Can check on prometheus alert.
+   ```
 
 10. Create Alert Manger yaml file to send alert Notification at firing state of alert rules
     ```
@@ -176,3 +177,40 @@
     ```
       Load the CPUStress by using CPUStress Image, and when HostHighCpuLoad alert rule is in firing state, you will get email.
     ```
+13. Monitoring Thrid Party Application (Redis)
+    ```
+      For monitor third party application we have 'exporters'
+      - Exporters
+        - Exporter gets metrics data from the service
+        - It translatest hese service specific metrics to prometheus understandable metrics
+        - Exporter exposes these translated metrics under /metrics endpoint
+      We need to tell prometheus about this new exporter.
+      For that 'ServiceMonitor (custom k8s resources)' needs to be deployed.
+        - ServiceMonitor is the set of targets to be monitored by prometheus.
+    ```
+14. Deploy Redis Exporter
+
+    ```
+      Using Helm Chart to deploy
+        - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        - helm repo update
+        - helm install redis-exporter prometheus-community/prometheus-redis-exporter -f redis-values.yaml
+
+      To Check the redis exporter target
+        - Goto Prometheus UI
+        - Click on Status => Target
+        - Search for redis-exporter
+    ```
+15. Get The Redis Exporter URL
+    ```
+      - export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus-redis-exporter,release=redis-exporter" -o jsonpath="{.items[0].metadata.name}")
+      - echo "Visit http://127.0.0.1:8080 to use your application"
+      - kubectl port-forward $POD_NAME 8080:
+    ```
+16. Create Alert Rules for Redis 
+   ```
+    - Ref - redis-rules.yaml
+    - After Creating rule apply the file = kubectl apply -f <alert-rule file>
+   ```
+17. 
+### Ref - Predefined Prometheus Alert Rules - https://awesome-prometheus-alerts.grep.to/
