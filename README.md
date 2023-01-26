@@ -150,19 +150,29 @@
     - Search for main-rules
    ```
 9. Test Our Alert Rules
-  ```
-    Using CPUStress docker image we will run the container inside the k8 pod for testing our rule.
-    - `kubectl run cpu-test --image=containerstack/cpustress -- --cpu 4 --timeout 30s --metrics-brief`
-    You can check the cpu load over grafana under dashboard 'kubernetes-cluster'
-    Also, Can check on prometheus alert.
-  ```
-10. Sending Alert Notification at firing state of alert rules
     ```
-      To Check Prometheus Alert UI - 
+      Using CPUStress docker image we will run the container inside the k8 pod for testing our rule.
+      - `kubectl run cpu-test --image=containerstack/cpustress -- --cpu 4 --timeout 30s --metrics-brief`
+      You can check the cpu load over grafana under dashboard 'kubernetes-cluster'
+      Also, Can check on prometheus alert.
+    ```
+
+10. Create Alert Manger yaml file to send alert Notification at firing state of alert rules
+    ```
+      To Check Prometheus Alert UI -
         - kubectl port-forward svc/monitoring-kube-prometheus-alertmanager 9093:9093 -n monitoring &
       Create an alert-manager.yaml file
+        - Ref - alert-manager.yaml
+      Apply the file
+        - kubectl apply -f alert-manager.yaml
     ```
-11. Apply alert-manager.yaml file
+11. Now, You can check your manual alert manager in prometheus alert manager ui
     ```
-      kubectl apply -f alert-manager.yaml
+      Goto Alert Manger UI
+      Click On Status
+      Check for your changes there
+    ```
+12. Test Our own alert manager
+    ```
+      Load the CPUStress by using CPUStress Image, and when HostHighCpuLoad alert rule is in firing state, you will get email.
     ```
