@@ -241,7 +241,19 @@ Monitoring Own Application
   2. Create Kubernetes Configuration file - Ref Prometheus-Learning/k8s-config.yaml
   3. Apply the configuration file - `kubectl apply -f k8s-config.yaml` 
   4. Create ServiceMonitor metrics-configuration file - Ref Prometheus-Learning/own-app-service-monitor.yaml
-  5. Apply the service monitor configuration file - `kubectl apply -f own-app-service-monitor.yaml` 
+  5. Apply the service monitor configuration file - `kubectl apply -f own-app-service-monitor.yaml`
+  6. You Can check the rules on prometheus ui -
+      - Goto Prometheus UI => serarch for any "http_request"
+  7. Create Dashboard on Grafana UI
+      - Goto Grafana UI => Click on new Dashboard 
+      - Add a new Panal => Give it name "Request per second"
+      - Run the prom query `rate(http_request_operations_total[2m])` to get data for above panel
+      - Save the panel
+      - This query will return per second load on the application
+      - Add a new Panal => Give it name "Request Duration"
+      - Run the prom query `rate(http_request_duration_seconds_sum[2m])` to get data for above panel
+      - Save the panel
+      - This query will return duration on the application
 
 - Ref - Predefined Prometheus Alert Rules - https://awesome-prometheus-alerts.grep.to/
 - Ref - Prometheus Client Library - https://prometheus.io/docs/instrumenting/clientlibs/
