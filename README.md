@@ -240,7 +240,8 @@ Monitoring Own Application
       `kubectl create secret docker-registry docker-login --docker-server=https://index.docker.io/v1/ --docker-username=<> --docker-password=<>`  
   2. Create Kubernetes Configuration file - Ref Prometheus-Learning/k8s-config.yaml
   3. Apply the configuration file - `kubectl apply -f k8s-config.yaml` 
-  4. Create metrics-configuration file -
+  4. Create ServiceMonitor metrics-configuration file - Ref Prometheus-Learning/own-app-service-monitor.yaml
+  5. Apply the service monitor configuration file - `kubectl apply -f own-app-service-monitor.yaml` 
 
 - Ref - Predefined Prometheus Alert Rules - https://awesome-prometheus-alerts.grep.to/
 - Ref - Prometheus Client Library - https://prometheus.io/docs/instrumenting/clientlibs/
